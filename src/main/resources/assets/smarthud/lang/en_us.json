@@ -1,0 +1,42 @@
+{
+  "smarthud.config.title": "SmartHUD Configuration",
+  "smarthud.config.category.general": "General Settings",
+  "smarthud.config.category.display": "Display Options",
+
+  "smarthud.config.position": "HUD Position",
+  "smarthud.config.position.tooltip": "Position of the HUD on screen",
+  "smarthud.config.offset_x": "Horizontal Offset",
+  "smarthud.config.offset_x.tooltip": "Horizontal offset from screen edge",
+  "smarthud.config.offset_y": "Vertical Offset",
+  "smarthud.config.offset_y.tooltip": "Vertical offset from screen edge",
+  "smarthud.config.text_color": "Text Color",
+  "smarthud.config.text_color.tooltip": "Color of the HUD text",
+  "smarthud.config.text_shadow": "Text Shadow",
+  "smarthud.config.text_shadow.tooltip": "Enable text shadow for better visibility",
+
+  "smarthud.config.show_coordinates": "Show Coordinates",
+  "smarthud.config.show_direction": "Show Direction",
+  "smarthud.config.show_dimension_coords": "Show Dimension Coordinates",
+  "smarthud.config.show_looking_at": "Show Looking At Block",
+  "smarthud.config.show_biome": "Show Biome",
+  "smarthud.config.show_time": "Show Time",
+
+  "smarthud.hud.position": "%s",
+  "smarthud.hud.facing": "Facing: %s",
+  "smarthud.hud.dimension": "%s",
+  "smarthud.hud.looking_at": "Looking at: %s",
+  "smarthud.hud.biome": "Biome: %s",
+  "smarthud.hud.time": "Time: %s",
+
+  "smarthud.dimension.overworld": "Overworld",
+  "smarthud.dimension.nether": "Nether",
+
+  "smarthud.direction.north": "North",
+  "smarthud.direction.northeast": "Northeast",
+  "smarthud.direction.east": "East",
+  "smarthud.direction.southeast": "Southeast",
+  "smarthud.direction.south": "South",
+  "smarthud.direction.southwest": "Southwest",
+  "smarthud.direction.west": "West",
+  "smarthud.direction.northwest": "Northwest"
+}

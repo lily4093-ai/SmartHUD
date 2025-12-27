@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "smarthud",
+	"version": "${version}",
+	"name": "SmartHUD",
+	"description": "A customizable HUD mod showing coordinates, direction, dimension info, and more",
+	"authors": [
+		"SmartHUD Team"
+	],
+	"contact": {
+		"homepage": "https://github.com/yourusername/smarthud"
+	},
+	"license": "MIT",
+	"icon": "assets/smarthud/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.smarthud.SmartHudClient"
+		],
+		"modmenu": [
+			"com.smarthud.config.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"smarthud.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": ">=1.21 <=1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"recommends": {
+		"modmenu": ">=11.0.0"
+	}
+}

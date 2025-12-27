@@ -1,0 +1,47 @@
+{
+  "smarthud.config.title": "SmartHUD 설정",
+  "smarthud.config.category.general": "일반 설정",
+  "smarthud.config.category.display": "표시 옵션",
+
+  "smarthud.config.position": "HUD 위치",
+  "smarthud.config.position.tooltip": "화면에서 HUD의 위치",
+  "smarthud.config.offset_x": "가로 오프셋",
+  "smarthud.config.offset_x.tooltip": "화면 가장자리로부터의 가로 거리",
+  "smarthud.config.offset_y": "세로 오프셋",
+  "smarthud.config.offset_y.tooltip": "화면 가장자리로부터의 세로 거리",
+  "smarthud.config.text_color": "텍스트 색상",
+  "smarthud.config.text_color.tooltip": "HUD 텍스트의 색상",
+  "smarthud.config.text_shadow": "텍스트 그림자",
+  "smarthud.config.text_shadow.tooltip": "가시성 향상을 위한 텍스트 그림자 활성화",
+
+  "smarthud.config.show_coordinates": "좌표 표시",
+  "smarthud.config.show_direction": "방향 표시",
+  "smarthud.config.show_dimension_coords": "차원 좌표 표시",
+  "smarthud.config.show_looking_at": "바라보는 블록 표시",
+  "smarthud.config.show_biome": "바이옴 표시",
+  "smarthud.config.show_time": "시간 표시",
+
+  "smarthud.hud.position": "%s",
+  "smarthud.hud.facing": "방향: %s",
+  "smarthud.hud.dimension": "%s",
+  "smarthud.hud.looking_at": "바라보는 블록: %s",
+  "smarthud.hud.biome": "바이옴: %s",
+  "smarthud.hud.time": "시간: %s",
+
+  "smarthud.dimension.overworld": "오버월드",
+  "smarthud.dimension.nether": "네더",
+
+  "smarthud.direction.north": "북",
+  "smarthud.direction.northeast": "북동",
+  "smarthud.direction.east": "동",
+  "smarthud.direction.southeast": "남동",
+  "smarthud.direction.south": "남",
+  "smarthud.direction.southwest": "남서",
+  "smarthud.direction.west": "서",
+  "smarthud.direction.northwest": "북서",
+
+  "enum.smarthud.config.hudposition.top_left": "왼쪽 위",
+  "enum.smarthud.config.hudposition.top_right": "오른쪽 위",
+  "enum.smarthud.config.hudposition.bottom_left": "왼쪽 아래",
+  "enum.smarthud.config.hudposition.bottom_right": "오른쪽 아래"
+}
