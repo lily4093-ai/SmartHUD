@@ -5,6 +5,7 @@ import com.smarthud.config.HudConfig;
 import com.smarthud.util.CoordinateConverter;
 import com.smarthud.util.DirectionHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -14,21 +15,54 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HudRenderer implements HudRenderCallback {
+// Implements both old (1.21-1.21.5) and new (1.21.6+) HUD APIs
+public class HudRenderer implements HudRenderCallback, HudElement {
 
+    private static boolean firstRender = true;
+
+    // New API method (1.21.6+)
+    @Override
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+        if (firstRender) {
+            System.out.println("[SmartHUD] render() called (NEW API)");
+            firstRender = false;
+        }
+        renderHudContent(drawContext, tickCounter);
+    }
+
+    // Old API method (1.21-1.21.5)
     @Override
     public void onHudRender(DrawContext drawContext, RenderTickCounter tickCounter) {
+        if (firstRender) {
+            System.out.println("[SmartHUD] onHudRender() called (OLD API)");
+            firstRender = false;
+        }
+        renderHudContent(drawContext, tickCounter);
+    }
+
+    private void renderHudContent(DrawContext drawContext, RenderTickCounter tickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.world == null) return;
 
+        // Debug: Fill a rectangle to see if rendering works at all
+        drawContext.fill(10, 10, 200, 50, 0x80FF0000); // Red semi-transparent box
+
+        // Debug: Always show test text - try different draw method
+        TextRenderer textRenderer = client.textRenderer;
+        drawContext.drawTextWithShadow(textRenderer, "SmartHUD Test", 15, 15, 0xFFFFFF);
+
         HudConfig config = SmartHudClient.config;
+        if (config == null) {
+            drawContext.drawTextWithShadow(textRenderer, "Config is NULL!", 10, 30, 0xFF0000);
+            return;
+        }
+
         PlayerEntity player = client.player;
         World world = client.world;
 
@@ -37,26 +71,21 @@ public class HudRenderer implements HudRenderCallback {
         // Current coordinates
         if (config.showCoordinates) {
             BlockPos pos = player.getBlockPos();
-            lines.add(translate("smarthud.hud.position",
-                String.format("X: %d Y: %d Z: %d", pos.getX(), pos.getY(), pos.getZ())));
+            lines.add(String.format("X: %d Y: %d Z: %d", pos.getX(), pos.getY(), pos.getZ()));
         }
 
         // Direction
         if (config.showDirection) {
             String direction = DirectionHelper.getCardinalDirection(player.getYaw());
-            String directionLocalized = translate("smarthud.direction." + direction.toLowerCase());
-            lines.add(translate("smarthud.hud.facing",
-                String.format("%s (%.0f°)", directionLocalized, ((player.getYaw() % 360 + 360) % 360))));
+            lines.add(String.format("Facing: %s (%.0f°)", direction, ((player.getYaw() % 360 + 360) % 360)));
         }
 
         // Dimension coordinates (Nether/Overworld conversion)
         if (config.showDimensionCoords) {
             BlockPos converted = CoordinateConverter.convertCoordinates(player.getBlockPos(), world);
             if (converted != null) {
-                String dimName = CoordinateConverter.isNether(world) ?
-                    translate("smarthud.dimension.overworld") : translate("smarthud.dimension.nether");
-                lines.add(translate("smarthud.hud.dimension",
-                    String.format("%s: X: %d Z: %d", dimName, converted.getX(), converted.getZ())));
+                String dimName = CoordinateConverter.isNether(world) ? "Overworld" : "Nether";
+                lines.add(String.format("%s: X: %d Z: %d", dimName, converted.getX(), converted.getZ()));
             }
         }
 
@@ -65,8 +94,7 @@ public class HudRenderer implements HudRenderCallback {
             HitResult hit = client.crosshairTarget;
             if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
                 BlockPos blockPos = ((BlockHitResult) hit).getBlockPos();
-                lines.add(translate("smarthud.hud.looking_at",
-                    String.format("X: %d Y: %d Z: %d", blockPos.getX(), blockPos.getY(), blockPos.getZ())));
+                lines.add(String.format("Looking at: X: %d Y: %d Z: %d", blockPos.getX(), blockPos.getY(), blockPos.getZ()));
             }
         }
 
@@ -75,10 +103,8 @@ public class HudRenderer implements HudRenderCallback {
             RegistryEntry<Biome> biome = world.getBiome(player.getBlockPos());
             String biomeName = biome.getIdAsString();
             if (biomeName != null) {
-                // Extract the biome name after "minecraft:"
                 String shortName = biomeName.replace("minecraft:", "");
-                lines.add(translate("smarthud.hud.biome",
-                    translate("biome.minecraft." + shortName)));
+                lines.add("Biome: " + shortName);
             }
         }
 
@@ -87,7 +113,7 @@ public class HudRenderer implements HudRenderCallback {
             long time = world.getTimeOfDay() % 24000;
             int hours = (int)((time / 1000 + 6) % 24);
             int minutes = (int)((time % 1000) * 60 / 1000);
-            lines.add(translate("smarthud.hud.time", String.format("%02d:%02d", hours, minutes)));
+            lines.add(String.format("Time: %02d:%02d", hours, minutes));
         }
 
         // Render the HUD
@@ -133,19 +159,10 @@ public class HudRenderer implements HudRenderCallback {
             int lineY = y + i * lineHeight;
 
             if (config.textShadow) {
-                drawContext.drawText(textRenderer, line, x, lineY, config.textColor, true);
+                drawContext.drawTextWithShadow(textRenderer, line, x, lineY, config.textColor);
             } else {
                 drawContext.drawText(textRenderer, line, x, lineY, config.textColor, false);
             }
         }
-    }
-
-    private String translate(String key, Object... args) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        String translated = net.minecraft.client.resource.language.I18n.translate(key);
-        if (args.length > 0) {
-            return String.format(translated, args);
-        }
-        return translated;
     }
 }

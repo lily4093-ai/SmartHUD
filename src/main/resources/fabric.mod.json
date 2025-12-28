@@ -8,7 +8,7 @@
 		"SmartHUD Team"
 	],
 	"contact": {
-		"homepage": "https://github.com/yourusername/smarthud"
+		"homepage": "https://github.com/lily4093-ai/SmartHUD"
 	},
 	"license": "MIT",
 	"icon": "assets/smarthud/icon.png",
@@ -31,6 +31,6 @@
 		"fabric-api": "*"
 	},
 	"recommends": {
-		"modmenu": ">=11.0.0"
+		"modmenu": "*"
 	}
 }
